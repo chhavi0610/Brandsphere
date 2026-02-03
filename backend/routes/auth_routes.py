@@ -7,11 +7,15 @@ from flask_jwt_extended import create_access_token
 
 auth_bp = Blueprint('auth', __name__)
 
-@auth_bp.route("/register", methods=["POST", "OPTIONS"])
-@cross_origin(
-    origins=["https://brandsphere-q6a3.vercel.app"],
-    headers=["Content-Type", "Authorization"]
-)
+@auth_bp.route("/register", methods=["OPTIONS"])
+def register_options():
+    response = jsonify({"ok": True})
+    response.headers.add("Access-Control-Allow-Origin", "https://brandsphere-q6a3.vercel.app")
+    response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
+    response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
+    return response
+
+@auth_bp.route("/register", methods=["POST"])
 def register():
     data = request.json
     conn = get_db_connection()
