@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import RetailerDashboard from "./pages/RetailerDashboard";
 import ManufacturerDashboard from "./pages/ManufacturerDashboard";
 
+
 function App() {
   return (
     <Router>
