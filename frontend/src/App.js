@@ -1,15 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import RetailerDashboard from "./pages/RetailerDashboard";
 import ManufacturerDashboard from "./pages/ManufacturerDashboard";
-import Register from "./pages/Register";
-
 
 function App() {
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
-
-return (
+  return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
