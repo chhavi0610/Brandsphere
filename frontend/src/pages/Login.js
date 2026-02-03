@@ -1,80 +1,54 @@
 import { useState } from "react";
-import API from "../api";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
-  const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const login = async () => {
     try {
-      const res = await API.post("/auth/login", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        "https://chhavi0610.pythonanywhere.com/api/auth/login",
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      localStorage.setItem("token", res.data.access_token);
-      localStorage.setItem("role", res.data.role);
-
-      setMsg("Login successful");
-
+      console.log("Login success:", res.data);
+      setMsg("Login successful!");
 
       setTimeout(() => {
-        if (res.data.role === "manufacturer") {
-          navigate("/manufacturer");
-        } else {
-          navigate("/retailer");
-        }
-      }, 800);
-
+        navigate("/dashboard");
+      }, 1000);
     } catch (err) {
+      console.error(err);
       setMsg("Login failed");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-6 text-center">
-          BrandSphere Login
-        </h2>
-
-        <input
-          className="w-full p-2 mb-4 border rounded"
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          className="w-full p-2 mb-4 border rounded"
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-          onClick={handleLogin}
-        >
-          Login
-        </button>
-
-        <p className="mt-4 text-center">
-          New user?{" "}
-          <button
-            onClick={() => navigate("/register")}
-            className="text-blue-600 underline"
-          >
-            Sign up
-          </button>
-        </p>
-
-        {msg && (
-          <p className="mt-4 text-center text-red-500">{msg}</p>
-        )}
-      </div>
+    <div>
+      <input
+        placeholder="Email"
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={login}>Login</button>
+      {msg}
     </div>
   );
 }
