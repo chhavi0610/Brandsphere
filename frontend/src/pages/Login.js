@@ -1,10 +1,12 @@
 import { useState } from "react";
 import API from "../api";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -51,12 +53,12 @@ return (
       </button>
       <p className="mt-4 text-center">
   New user?{" "}
-  <span
-    className="text-blue-600 cursor-pointer"
-    onClick={() => (window.location.href = "/register")}
-  >
-    Sign up
-  </span>
+  <button
+  onClick={() => navigate("/register")}
+  className="text-blue-600 underline"
+>
+  Sign up
+</button>
 </p>
 
       <p className="mt-4 text-center text-red-500">{msg}</p>
