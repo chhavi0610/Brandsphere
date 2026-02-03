@@ -20,7 +20,7 @@ export default function Login() {
 
       setMsg("Login successful");
 
-      // 🔥 redirect based on role
+
       setTimeout(() => {
         if (res.data.role === "manufacturer") {
           navigate("/manufacturer");
