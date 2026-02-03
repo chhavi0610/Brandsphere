@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import Signup from "./pages/Signup";
 import RetailerDashboard from "./pages/RetailerDashboard";
 import ManufacturerDashboard from "./pages/ManufacturerDashboard";
 import Register from "./pages/Register";
@@ -14,7 +13,7 @@ return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Signup />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/retailer" element={<RetailerDashboard />} />
         <Route path="/manufacturer" element={<ManufacturerDashboard />} />
       </Routes>
