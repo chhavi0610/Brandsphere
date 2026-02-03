@@ -5,7 +5,7 @@ manufacturer_bp = Blueprint('manufacturers', __name__)
 
 @manufacturer_bp.route('/', methods=['POST'])
 def add_manufacturer():
-    data = request.json
+    data = request.json()
     conn = get_db_connection()
     cur = conn.cursor()
 

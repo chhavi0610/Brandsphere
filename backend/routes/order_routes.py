@@ -5,7 +5,7 @@ order_bp = Blueprint('order', __name__)
 
 @order_bp.route('/place', methods=['POST'])
 def place_order():
-    data = request.json
+    data = request.json()
     conn = get_db_connection()
     cur = conn.cursor()
 

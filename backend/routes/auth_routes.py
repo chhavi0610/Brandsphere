@@ -17,7 +17,7 @@ def register_options():
 
 @auth_bp.route("/register", methods=["POST"])
 def register():
-    data = request.json
+    data = request.json()
     conn = get_db_connection()
     
     if not conn:
