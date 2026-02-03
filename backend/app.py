@@ -10,7 +10,14 @@ from flask_jwt_extended import JWTManager
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(
+    app,
+    resources={r"/*": {"origins": "*"}},
+    supports_credentials=True,
+    methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"]
+)
+
 
 
 app.config['JWT_SECRET_KEY'] = 'brandsphere-secret-key'
