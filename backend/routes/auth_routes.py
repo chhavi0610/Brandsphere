@@ -1,3 +1,4 @@
+from flask_cors import cross_origin
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from database.db import get_db_connection
@@ -6,7 +7,11 @@ from flask_jwt_extended import create_access_token
 
 auth_bp = Blueprint('auth', __name__)
 
-@auth_bp.route('/register', methods=['POST'])
+@auth_bp.route("/register", methods=["POST", "OPTIONS"])
+@cross_origin(
+    origins=["https://brandsphere-q6a3.vercel.app"],
+    headers=["Content-Type", "Authorization"]
+)
 def register():
     data = request.json
     conn = get_db_connection()
@@ -32,8 +37,11 @@ def register():
 
     return jsonify({"message": "User registered", "user_id": user_id})
 
-
-@auth_bp.route('/login', methods=['POST'])
+@auth_bp.route("/login", methods=["POST", "OPTIONS"])
+@cross_origin(
+    origins=["https://brandsphere-q6a3.vercel.app"],
+    headers=["Content-Type", "Authorization"]
+)
 def login():
     data = request.json
     conn = get_db_connection()
