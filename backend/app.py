@@ -12,7 +12,7 @@ from flask_jwt_extended import JWTManager
 app = Flask(__name__)
 CORS(
     app,
-    resources={r"/*": {"origins": "*"}},
+    resources={r"/*": {"origins": "https://brandsphere-q6a3.vercel.app"}},
     supports_credentials=True,
     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization"]
