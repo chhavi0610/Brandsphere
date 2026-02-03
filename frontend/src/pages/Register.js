@@ -1,47 +1,69 @@
 import { useState } from "react";
 import API from "../api";
+import { useNavigate } from "react-router-dom";
 
-export default function Register() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    role: "retailer",
-  });
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const register = async () => {
+  const handleLogin = async () => {
     try {
-      await API.post("/auth/register", form);
-      alert("Signup successful! Please login.");
-      window.location.href = "/";
-    } catch {
-      alert("Signup failed");
+      const res = await API.post("/auth/login", {
+        email,
+        password,
+      });
+
+      localStorage.setItem("token", res.data.access_token);
+      localStorage.setItem("role", res.data.role);
+
+       window.location.href = "/";
+      setMsg("Login successful");
+    } catch (err) {
+      setMsg("Login failed ");
     }
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded shadow w-96">
-        <h2 className="text-xl font-bold mb-4">Sign Up</h2>
+return (
+  <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="bg-white p-8 rounded-lg shadow-md w-96">
+      <h2 className="text-2xl font-bold mb-6 text-center">
+        BrandSphere Login
+      </h2>
 
-        <input name="name" placeholder="Name" onChange={handleChange} className="w-full mb-2 p-2 border" />
-        <input name="email" placeholder="Email" onChange={handleChange} className="w-full mb-2 p-2 border" />
-        <input type="password" name="password" placeholder="Password" onChange={handleChange} className="w-full mb-2 p-2 border" />
+      <input
+        className="w-full p-2 mb-4 border rounded"
+        placeholder="Email"
+        onChange={(e) => setEmail(e.target.value)}
+      />
 
-        <select name="role" onChange={handleChange} className="w-full mb-4 p-2 border">
-          <option value="retailer">Retailer</option>
-          <option value="manufacturer">Manufacturer</option>
-        </select>
+      <input
+        className="w-full p-2 mb-4 border rounded"
+        type="password"
+        placeholder="Password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
 
-        <button onClick={register} className="w-full bg-blue-600 text-white p-2 rounded">
-          Register
-        </button>
-      </div>
+      <button
+        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+        onClick={handleLogin}
+      >
+        Login
+      </button>
+      <p className="mt-4 text-center">
+  New user?{" "}
+  <button
+  onClick={() => navigate("/register")}
+  className="text-blue-600 underline"
+>
+  Sign up
+</button>
+</p>
+
+      <p className="mt-4 text-center text-red-500">{msg}</p>
     </div>
-  );
-}
+  </div>
+);
 
+}
